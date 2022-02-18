@@ -1,0 +1,99 @@
+﻿/* Page-specific styling */
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin: 0 0 40px; /* bottom = footer height */
+}
+.footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 40px;
+    width: 100%;
+}
+
+.padding {
+    padding: 15px;
+}
+
+.img_logo {
+    width: 200px;
+    height: 60px;
+}
+
+.template-header {
+    font-size:x-large;
+    font-weight: 700;
+    color: #073763;
+}
+.template-description {
+    font-weight: 300;
+    color: #333333;
+}
+
+.select {
+    align-content: center;
+    font-weight: 700;
+    color: #073763;
+    width: 135px;
+    height: 25px;
+}
+
+.button {
+    width: 75px;
+}
+.textbox {
+    align-content: center;
+    font-weight: 700;
+    color: #073763;
+    width: 125px;
+    height: 20px;
+}
+
+#notification-popup.MessageBanner {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    text-align: left;
+    height: inherit;
+    min-width: inherit;
+}
+
+#notification-popup .MessageBanner-text {
+    margin: 0;
+    padding: 18px 15px;
+    min-width: inherit;
+}
+
+#Stocks {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 50%;
+    text-align: center;
+}
+
+    #Stocks td, #Stocks th {
+        border-collapse: collapse;
+        padding: 5px;
+        text-align: center;
+    }
+
+#Stocks tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#Stocks tr:hover {
+    background-color: #ddd;
+}
+
+    #Stocks th {
+        padding-top: 2px;
+        padding-bottom: 6px;
+        text-align: left;
+        background-color: #333333;
+        color: white;
+        text-align: center;
+    }

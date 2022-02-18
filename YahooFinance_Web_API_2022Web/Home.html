@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>Excel Add-In with Commands Sample</title>
+
+    <script src="Scripts/jquery-3.6.0.js" type="text/javascript"></script>
+    <script src="Scripts/MessageBanner.js" type="text/javascript"></script>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
+
+    <!-- <script type="module" src="https://unpkg.com/@fluentui/web-components"></script>-->
+    <!-- To enable offline debugging using a local reference to Office.js, use:  -->
+    <!-- <script src="Scripts/Office/MicrosoftAjax.js" type="text/javascript"></script>  -->
+    <!-- <script src="Scripts/Office/1/office.js" type="text/javascript"></script>  -->
+
+    <script src="Home.js" type="text/javascript"></script>
+    <link href="Home.css" rel="stylesheet" type="text/css" />
+    <link href="../Content/Button.css" rel="stylesheet" type="text/css" />
+    <link href="../Content/MessageBanner.css" rel="stylesheet" type="text/css" />
+
+    <!-- For Office UI Fabric Core, go to https://aka.ms/office-ui-fabric to learn more. -->
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.6.0/css/fabric.min.css">
+
+    <!-- To enable the offline use of Office UI Fabric Core, use: -->
+    <!-- link rel="stylesheet" href="Content/fabric.min.css" -->
+
+</head>
+
+<!-- Office UI Fabric JS and it's components are no longer actively supported.
+    Please see https://aka.ms/PnP-OfficeFabricReact for recommended Patterns and Practices -->
+<!-- <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css">-->
+
+<body class="ms-Fabric" dir="ltr">
+    <div id="header">
+        <div class="ms-Grid ms-bgColor-black">
+            <div class="ms-Grid-row">
+                <img class="img_logo" src="Images/YahooFinance_Logo_black.png" />
+            </div>
+
+        </div>
+    </div>
+    <div id="content-main">
+        <div class="padding">
+            <div class="ms-Grid-row">
+                <fluent-button appearance="accent"></fluent-button>
+            </div>
+            <div class="template-header" id="template-header">Instructions:</div>
+            <p class="template-description" id="template-description"></p>
+            <div>
+                <span>Ticker:</span>
+                <br />
+                <input type="text" class="textbox" id="txtTicker" value="ABBV" />
+            </div>
+            <br />
+            <div>
+                <span>Select a data range:</span>
+                <br />
+                <select class="select" id="selRange">
+                    <option value="1d">1d</option>
+                    <option value="5d">5d</option>
+                    <option value="1mo">1mo</option>
+                    <option value="3mo">3mo</option>
+                    <option value="6mo">6mo</option>
+                    <option value="1y">1y</option>
+                    <option value="2y">2y</option>
+                    <option value="5y">5y</option>
+                    <option value="10y">10y</option>
+                    <option value="ytd">ytd</option>
+                    <option value="max">max</option>
+
+                </select>
+            </div>
+            <br />
+            <div>
+                <span>Select a Data Filter:</span>
+                <br />
+                <select class="select" id="selFilter">
+                    <option value="AboveAverage">AboveAverage</option>
+                    <option value="AllDatesInPeriodApril">AllDatesInPeriodApril</option>
+                    <option value="AllDatesInPeriodAugust">AllDatesInPeriodAugust</option>
+                    <option value="AllDatesInPeriodDecember">AllDatesInPeriodDecember</option>
+                    <option value="AllDatesInPeriodFebruray">AllDatesInPeriodFebruray</option>
+                    <option value="AllDatesInPeriodJanuary">AllDatesInPeriodJanuary</option>
+                    <option value="AllDatesInPeriodJuly">AllDatesInPeriodJuly</option>
+                    <option value="AllDatesInPeriodJune">AllDatesInPeriodJune</option>
+                    <option value="AllDatesInPeriodMarch">AllDatesInPeriodMarch</option>
+                    <option value="AllDatesInPeriodMay">AllDatesInPeriodMay</option>
+                    <option value="AllDatesInPeriodNovember">AllDatesInPeriodNovember</option>
+                    <option value="AllDatesInPeriodOctober">AllDatesInPeriodOctober</option>
+                    <option value="AllDatesInPeriodQuarter1">AllDatesInPeriodQuarter1</option>
+                    <option value="AllDatesInPeriodQuarter2">AllDatesInPeriodQuarter2</option>
+                    <option value="AllDatesInPeriodQuarter3">AllDatesInPeriodQuarter3</option>
+                    <option value="AllDatesInPeriodQuarter4">AllDatesInPeriodQuarter4</option>
+                    <option value="AllDatesInPeriodSeptember">AllDatesInPeriodSeptember</option>
+                    <option value="BelowAverage">BelowAverage</option>
+                    <option value="LastMonth">LastMonth</option>
+                    <option value="LastQuarter">LastQuarter</option>
+                    <option value="LastWeek">LastWeek</option>
+                    <option value="LastYear">LastYear</option>
+                    <option value="NextMonth">NextMonth</option>
+                    <option value="NextQuarter">NextQuarter</option>
+                    <option value="NextWeek">NextWeek</option>
+                    <option value="NextYear">NextYear</option>
+                    <option value="ThisMonth">ThisMonth</option>
+                    <option value="ThisQuarter">ThisQuarter</option>
+                    <option value="ThisWeek">ThisWeek</option>
+                    <option value="ThisYear">ThisYear</option>
+                    <option value="Today">Today</option>
+                    <option value="Tomorrow">Tomorrow</option>
+                    <option value="YearToDate">YearToDate</option>
+                    <option value="Yesterday">Yesterday</option>
+                </select>
+            </div>
+            <div hidden="hidden" id="divRowCount"></div>
+            <br />
+            <div>
+                <table id="Stocks">
+                    <tr>
+                        <th>Data</th>
+                        <th>Charts</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="Button Button--primary" id="btnGetYahoodata">
+                                <span class="Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+                                <span class="Button-label" id="button-text">Get Data...</span>
+                                <span class="Button-description" id="button-desc"></span>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="Button Button--primary" id="btnCandleStickChart">
+                                <span class="Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+                                <span class="Button-label" id="button-text">Price Chart</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="Button Button--primary" id="btnFormatYahoodata">
+                                <span class="Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+                                <span class="Button-label" id="button-text">Format Data</span>
+
+                            </button>
+                        </td>
+                        <td>
+                            <button class="Button Button--primary" id="btnRemoveChart">
+                                <span class="Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+                                <span class="Button-label" id="button-text">Remove Chart</span>
+                            </button>                        
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="Button Button--primary" id="btnRateofReturn">
+                                <span class="Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+                                <span class="Button-label" id="button-text">Rate of Return</span>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="Button Button--primary" id="btnFilter">
+                                <span class="Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+                                <span class="Button-label" id="button-text">Filter Data</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="Button Button--primary" id="btnAddBar">
+                                <span class="Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+                                <span class="Button-label" id="button-text">Add Bar</span>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="Button Button--primary" id="btnClearFilter">
+                                <span class="Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+                                <span class="Button-label" id="button-text">Clear Filter</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="Button Button--primary" id="btnAddIcons">
+                                <span class="Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+                                <span class="Button-label" id="button-text">Add Icons</span>
+                            </button>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="Button Button--primary" id="btnClearConditional">
+                                <span class="Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+                                <span class="Button-label" id="button-text">Clear Format</span>
+                            </button>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="ms-Grid ms-bgColor-black">
+            <div class="ms-Grid-row">
+                <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12">
+                    <div class="ms-font-xl ms-fontColor-white">Yahoo Finance</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Component used for displaying notifications -->
+    <div class="MessageBanner" id="notification-popup">
+        <div class="MessageBanner-content">
+            <div class="MessageBanner-text">
+                <div class="MessageBanner-clipper">
+                    <div class="ms-font-m-plus ms-fontWeight-semibold" id="notification-header"></div>
+                    <div class="ms-font-m ms-fontWeight-semilight" id="notification-body"></div>
+                </div>
+            </div>
+            <button class="MessageBanner-expand" style="display:none"><i class="ms-Icon ms-Icon--chevronsDown"></i> </button>
+            <div class="MessageBanner-action"></div>
+        </div>
+        <button class="MessageBanner-close"><i class="ms-Icon ms-Icon--ChromeClose"></i> </button>
+    </div>
+
+    <div id="messageLabel"></div>
+
+</body>
+</html>
